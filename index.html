@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+  <script type="module" src="/src/main.ts" defer></script>
+  <title>Student Restaurants</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Student Restaurants</h1>
+      <nav>
+        <button id="hamburger" class="material-icons nav-btn">menu</button>
+        <ul id="nav-links" class="hidden">
+          <li><button id="home" class="material-icons nav-btn">home</button></li>
+          <li><button id="edit" class="material-icons nav-btn">edit</button></li>
+          <li><button id="settings" class="material-icons nav-btn">settings</button></li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      <div id="map"></div>
+    </main>
+    <footer>
+      <p>© 2021</p>
+    </footer>
+  </div>
+  <!-- modal to show todays menu -->
+  <dialog id="menu-today">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Today's Menu</h2>
+        <button class="material-icons close-btn">close</button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button class="material-icons close-btn">close</button>
+      </div>
+    </div>
+  </dialog>
+  <!-- modal to show weekly menu -->
+  <dialog id="menu-week">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Weekly Menu</h2>
+        <button class="material-icons close-btn">close</button>
+      </div>
+      <div class="modal-body">
+      </div>
+    </div>
+</body>
+
+</html>
