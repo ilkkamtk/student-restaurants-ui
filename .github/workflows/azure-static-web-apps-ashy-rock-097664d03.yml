@@ -22,6 +22,17 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - uses: microsoft/variable-substitution@v1
+        with:
+          files: 'env.json'
+        env:
+          mapboxToken: ${{ secrets.VITE_MAPBOX_TOKEN }}
+          apiUrl: 'https://student-restaurants.azurewebsites.net/api/v1'
+          uploadPath: 'https://student-restaurants.azurewebsites.net/uploads'
+
+      - name: copy env.json
+        run: cp env.json dist/env.json
+
       - name: Build App
         run: npm run build
 
@@ -35,10 +46,6 @@ jobs:
           app_location: '/dist' # App source code path
           api_location: '' # Api source code path - optional
           output_location: '' # Built app content directory - optional
-        env:
-          VITE_MAPBOX_TOKEN: ${{ secrets.VITE_MAPBOX_TOKEN }}
-          VITE_API_URL: 'https://student-restaurants.azurewebsites.net/api/v1'
-          VITE_UPLOAD_PATH: 'https://student-restaurants.azurewebsites.net/uploads'
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
