@@ -24,7 +24,7 @@ jobs:
 
       - uses: microsoft/variable-substitution@v1
         with:
-          files: 'env.json'
+          files: 'public/env.json'
         env:
           mapboxToken: ${{ secrets.VITE_MAPBOX_TOKEN }}
           apiUrl: 'https://student-restaurants.azurewebsites.net/api/v1'
