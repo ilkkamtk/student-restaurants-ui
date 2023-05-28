@@ -24,7 +24,7 @@ import loadEnvironment from './functions/loadEnvironment';
   });
 
   // follow user and set map center to user location, add red marker to user location
-  navigator.geolocation.watchPosition(
+  navigator.geolocation.getCurrentPosition(
     (position) => {
       console.log(position);
       map.setCenter([position.coords.longitude, position.coords.latitude]);
