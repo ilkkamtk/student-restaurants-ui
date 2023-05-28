@@ -151,7 +151,7 @@ import loadEnvironment from './functions/loadEnvironment';
           viewMenu?.addEventListener('click', async (evt) => {
             try {
               const menu = await doFetch(
-                (import.meta.env.VITE_API_URL as string) +
+                env.apiUrl +
                   '/restaurants/daily/' +
                   (evt.currentTarget as HTMLElement).dataset.id +
                   '/fi',
@@ -168,7 +168,7 @@ import loadEnvironment from './functions/loadEnvironment';
           viewWeeklyMenu?.addEventListener('click', async (evt) => {
             try {
               const menu = (await doFetch(
-                (import.meta.env.VITE_API_URL as string) +
+                (env.apiUrl as string) +
                   '/restaurants/weekly/' +
                   (evt.currentTarget as HTMLElement).dataset.id +
                   '/fi',
@@ -192,20 +192,17 @@ import loadEnvironment from './functions/loadEnvironment';
           addFavourite?.addEventListener('click', (evt) => {
             console.log((evt.currentTarget as HTMLElement).dataset.id);
             try {
-              const favourite = doFetch(
-                (import.meta.env.VITE_API_URL as string) + '/users',
-                {
-                  method: 'PUT',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + localStorage.getItem('token'),
-                  },
-                  body: JSON.stringify({
-                    favouriteRestaurant: (evt.currentTarget as HTMLElement)
-                      .dataset.id,
-                  }),
+              const favourite = doFetch((env.apiUrl as string) + '/users', {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: 'Bearer ' + localStorage.getItem('token'),
                 },
-              );
+                body: JSON.stringify({
+                  favouriteRestaurant: (evt.currentTarget as HTMLElement)
+                    .dataset.id,
+                }),
+              });
               console.log(favourite);
             } catch (error) {}
           });
