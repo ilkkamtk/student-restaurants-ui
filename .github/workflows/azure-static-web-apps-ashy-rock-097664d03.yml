@@ -30,9 +30,6 @@ jobs:
           apiUrl: 'https://student-restaurants.azurewebsites.net/api/v1'
           uploadPath: 'https://student-restaurants.azurewebsites.net/uploads'
 
-      - name: copy env.json
-        run: cp env.json dist/env.json
-
       - name: Build App
         run: npm run build
 
