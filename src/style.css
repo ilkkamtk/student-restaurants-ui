@@ -45,11 +45,21 @@ header {
   display: flex;
   justify-content: space-between;
   overflow: hidden;
+  align-items: center;
+}
+
+header img {
+  width: 3rem;
+  height: 3rem;
+  padding: 0.5rem;
+  /* add white border with shadow filter*/
+  filter: drop-shadow(0 0 0.4rem #b6b6b6);
 }
 
 header h1 {
   padding: 0 1rem;
   margin: 0;
+  font-size: 1.5rem;
 }
 
 .nav-btn {
@@ -83,16 +93,6 @@ main {
 #map {
   width: 100%;
   height: 100%;
-}
-
-footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  z-index: 999;
-  width: 100%;
-  background-color: #242424;
-  height: 3rem;
 }
 
 dialog {
@@ -135,4 +135,36 @@ dialog::backdrop {
 
 .modal-header button:focus {
   color: #f1f1f1;
+}
+
+.day-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-item {
+  padding: 0.3rem 1rem;
+  margin: 0;
+  background-color: #242424;
+  color: #e6e6e6;
+}
+
+.menu-item > * {
+  margin: 0.3rem;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  color: #e6e6e6;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  background-color: #242424;
+  height: 2rem;
 }

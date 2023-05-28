@@ -4,6 +4,7 @@ import mapboxgl from 'mapbox-gl';
 import { doFetch } from './functions/fetch';
 import { Restaurant, WeeklyMenu } from './interfaces/Restaurant';
 import { Point } from 'geojson';
+import createWMenu from './domFunctions/createWeeklyMenu';
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN as string;
 
@@ -17,14 +18,20 @@ const map = new mapboxgl.Map({
   antialias: true,
 });
 
-// open hamburger menu
-const menu = document.querySelector('#nav-links');
-const hamburger = document.querySelector('#hamburger');
-hamburger?.addEventListener('click', () => {
-  menu?.classList.toggle('hidden');
-  // change hamburger icon to close icon
-  hamburger.innerHTML = menu?.classList.contains('hidden') ? 'menu' : 'close';
-});
+// follow user and set map center to user location, add red marker to user location
+navigator.geolocation.watchPosition(
+  (position) => {
+    console.log(position);
+    map.setCenter([position.coords.longitude, position.coords.latitude]);
+    map.setZoom(17);
+    new mapboxgl.Marker({ color: 'red' })
+      .setLngLat([position.coords.longitude, position.coords.latitude])
+      .addTo(map);
+  },
+  (error) => {
+    console.log(error);
+  },
+);
 
 map.on('style.load', async () => {
   // Insert the layer beneath any symbol layer.
@@ -168,28 +175,9 @@ map.on('style.load', async () => {
               '#menu-week',
             ) as HTMLDialogElement;
             weeklyMenu.querySelector('.modal-body')!.innerHTML = '';
-            menu.days.forEach((menuItem) => {
-              const day = document.createElement('h3');
-              day.classList.add('day');
-              day.textContent = menuItem.date;
-
-              const menuList = document.createElement('ul');
-              menuList.classList.add('menu-list');
-              menuItem.courses.forEach((course) => {
-                const menuItemElement = document.createElement('li');
-                menuItemElement.classList.add('menu-item');
-                menuItemElement.innerHTML = `
-                <h4>${course.name}</h4>
-                <p>${course.diets}</p>
-                <p>${course.price}</p>
-              `;
-                menuList.appendChild(menuItemElement);
-              });
-              weeklyMenu?.querySelector('.modal-body')?.appendChild(day);
-              weeklyMenu?.querySelector('.modal-body')?.appendChild(menuList);
-            });
+            const menuHTML = createWMenu(menu);
+            weeklyMenu.querySelector('.modal-body')!.appendChild(menuHTML);
             weeklyMenu?.showModal();
-            console.log(weeklyMenu);
           } catch (error) {
             console.log((error as Error).message);
           }
@@ -198,6 +186,23 @@ map.on('style.load', async () => {
         const addFavourite = popup.getElement().querySelector('.add-favourite');
         addFavourite?.addEventListener('click', (evt) => {
           console.log((evt.currentTarget as HTMLElement).dataset.id);
+          try {
+            const favourite = doFetch(
+              (import.meta.env.VITE_API_URL as string) + '/users',
+              {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: 'Bearer ' + localStorage.getItem('token'),
+                },
+                body: JSON.stringify({
+                  favouriteRestaurant: (evt.currentTarget as HTMLElement)
+                    .dataset.id,
+                }),
+              },
+            );
+            console.log(favourite);
+          } catch (error) {}
         });
       },
     );
@@ -222,4 +227,11 @@ modalCloseButtons.forEach((button) => {
   button.addEventListener('click', (evt) => {
     (evt.currentTarget as HTMLElement).closest('dialog')?.close();
   });
+});
+
+// open account modal
+const openAccountModal = document.querySelector('#account-btn');
+const accountModal = document.querySelector('#account') as HTMLDialogElement;
+openAccountModal?.addEventListener('click', () => {
+  accountModal.showModal();
 });

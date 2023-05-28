@@ -3,8 +3,12 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="icon" type="image/svg+xml" href="/app-icon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sodexo and Compass Group student restaurants">
+  <link rel="apple-touch-icon" href="/ios/180.png" sizes="180x180">
+  <link rel="mask-icon" href="/app-icon.svg" color="#FFFFFF">
+  <meta name="theme-color" content="#242424">
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
   <script type="module" src="/src/main.ts" defer></script>
   <title>Student Restaurants</title>
@@ -13,21 +17,17 @@
 <body>
   <div class="container">
     <header>
+      <img id="logo" src="/app-icon.svg" alt="logo" />
       <h1>Student Restaurants</h1>
       <nav>
-        <button id="hamburger" class="material-icons nav-btn">menu</button>
-        <ul id="nav-links" class="hidden">
-          <li><button id="home" class="material-icons nav-btn">home</button></li>
-          <li><button id="edit" class="material-icons nav-btn">edit</button></li>
-          <li><button id="settings" class="material-icons nav-btn">settings</button></li>
-        </ul>
+        <button id="account-btn" class="material-icons nav-btn">account_circle</button>
       </nav>
     </header>
     <main>
       <div id="map"></div>
     </main>
     <footer>
-      <p>© 2021</p>
+      <p>© ILE 2023</p>
     </footer>
   </div>
   <!-- modal to show todays menu -->
@@ -38,9 +38,6 @@
         <button class="material-icons close-btn">close</button>
       </div>
       <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button class="material-icons close-btn">close</button>
       </div>
     </div>
   </dialog>
@@ -54,6 +51,93 @@
       <div class="modal-body">
       </div>
     </div>
+  </dialog>
+  <!-- modal to show settings -->
+  <dialog id="account">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Account</h2>
+        <button class="material-icons close-btn">close</button>
+      </div>
+      <div class="modal-body">
+        <!-- user info -->
+        <fieldset>
+          <legend>User Info</legend>
+          <h3>Username</h3>
+          <img id="avatar" src="https://via.placeholder.com/150" alt="avatar" />
+          <p>Favourite restaurant: </p>
+        </fieldset>
+        <!-- logout button -->
+        <fieldset>
+          <legend>Logout</legend>
+          <button id="logout-btn">Logout</button>
+        </fieldset>
+        <!-- login form -->
+        <form id="login-form">
+          <fieldset id="login-fieldset">
+            <legend>Login</legend>
+            <div class="form-control">
+              <label for="username">Username</label>
+              <input type="text" id="username" placeholder="Enter username" />
+            </div>
+            <div class="form-control">
+              <label for="password">Password</label>
+              <input type="password" id="password" placeholder="Enter password" />
+            </div>
+            <button type="submit" class="btn">Login</button>
+          </fieldset>
+        </form>
+        <!-- register form -->
+        <form id="register-form">
+          <fieldset>
+            <legend>Register</legend>
+            <div class="form-control">
+              <label for="username">Username</label>
+              <input type="text" id="username" placeholder="Enter username" />
+            </div>
+            <div class="form-control">
+              <label for="password">Password</label>
+              <input type="password" id="password" placeholder="Enter password" />
+            </div>
+            <div class="form-control">
+              <label for="password2">Confirm Password</label>
+              <input type="password" id="password2" placeholder="Enter password again" />
+            </div>
+            <button type="submit" class="btn">Register</button>
+          </fieldset>
+        </form>
+        <!-- update user -->
+        <form id="update-form">
+          <fieldset>
+            <legend>Update User</legend>
+            <div class="form-control">
+              <label for="username">Username</label>
+              <input type="text" id="username" placeholder="Enter username" />
+            </div>
+            <div class="form-control">
+              <label for="password">Password</label>
+              <input type="password" id="password" placeholder="Enter password" />
+            </div>
+            <div class="form-control">
+              <label for="password2">Confirm Password</label>
+              <input type="password" id="password2" placeholder="Enter password again" />
+            </div>
+            <button type="submit" class="btn">Update</button>
+          </fieldset>
+          <!-- upload avatar -->
+          <form id="upload-form">
+            <fieldset>
+              <legend>Upload Avatar</legend>
+
+              <div class="form-control">
+                <label for="avatar">Avatar</label>
+                <input type="file" name="" accept="image/*" />
+              </div>
+              <button type="submit" class="btn">Upload</button>
+            </fieldset>
+          </form>
+      </div>
+  </dialog>
 </body>
 
 </html>
