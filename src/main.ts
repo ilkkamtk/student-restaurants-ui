@@ -10,12 +10,14 @@ import { registerSW } from 'virtual:pwa-register';
 
 const updateSW = registerSW({
   onNeedRefresh() {
+    console.log('onNeedRefresh');
     const update = confirm('New version available. Update?');
     if (update) {
       updateSW(true);
     }
   },
   onOfflineReady() {
+    console.log('onOfflineReady');
     alert('App is offline ready');
   },
 });
