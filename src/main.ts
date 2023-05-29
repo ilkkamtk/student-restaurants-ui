@@ -7,6 +7,9 @@ import loadEnvironment from './functions/loadEnvironment';
 import { FeatureCollection } from './interfaces/FeatureCollection';
 import createPopup from './domFunctions/createPopup';
 import { registerSW } from 'virtual:pwa-register';
+import { pwaInfo } from 'virtual:pwa-info';
+
+console.log(pwaInfo);
 
 const updateSW = registerSW({
   onNeedRefresh() {

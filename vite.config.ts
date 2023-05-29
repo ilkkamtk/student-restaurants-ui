@@ -3,6 +3,10 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   plugins: [
     VitePWA({
+      devOptions: {
+        enabled: true,
+        type: 'module',
+      },
       registerType: 'autoUpdate',
       injectRegister: 'auto',
       workbox: {
