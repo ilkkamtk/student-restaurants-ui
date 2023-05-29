@@ -6,6 +6,19 @@ import { Restaurant } from './interfaces/Restaurant';
 import loadEnvironment from './functions/loadEnvironment';
 import { FeatureCollection } from './interfaces/FeatureCollection';
 import createPopup from './domFunctions/createPopup';
+import { registerSW } from 'virtual:pwa-register';
+
+const updateSW = registerSW({
+  onNeedRefresh() {
+    const update = confirm('New version available. Update?');
+    if (update) {
+      updateSW(true);
+    }
+  },
+  onOfflineReady() {
+    alert('App is offline ready');
+  },
+});
 
 (async () => {
   const env = await loadEnvironment();

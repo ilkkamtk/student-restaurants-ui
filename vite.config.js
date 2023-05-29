@@ -7,6 +7,7 @@ export default defineConfig({
       injectRegister: 'auto',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        sourcemap: true,
       },
       includeAssets: [
         'app-icon.svg',
