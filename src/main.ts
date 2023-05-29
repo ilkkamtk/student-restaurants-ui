@@ -3,14 +3,13 @@ import 'material-icons/iconfont/material-icons.css';
 import mapboxgl from 'mapbox-gl';
 import { doFetch } from './functions/fetch';
 import { Restaurant, WeeklyMenu } from './interfaces/Restaurant';
-import { Point } from 'geojson';
 import createWMenu from './domFunctions/createWeeklyMenu';
 import loadEnvironment from './functions/loadEnvironment';
+import { FeatureCollection } from './interfaces/FeatureCollection';
+import createPopup from './domFunctions/createPopup';
 
 (async () => {
   const env = await loadEnvironment();
-  console.log(env);
-
   mapboxgl.accessToken = env.mapboxToken as string;
 
   const map = new mapboxgl.Map({
@@ -87,127 +86,38 @@ import loadEnvironment from './functions/loadEnvironment';
     );
     try {
       const restaurants = await doFetch(env.apiUrl + '/restaurants');
-      console.log(restaurants);
+      // console.log(restaurants);
       // get data from restaurants and convert it to GeoJSON feature collection
-      const geojson = {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: restaurants.map((restaurant: Restaurant) => {
-            const { location, ...rest } = restaurant;
-            const feature: GeoJSON.Feature<GeoJSON.Point> = {
-              type: 'Feature',
-              geometry: location as Point,
-              properties: {
-                description: `
-                <div class="flex flex-col">
-                  <h3 class="text-lg">${rest.name} - ${rest.company}</h3>
-                  <p>${rest.address}</p>
-                  <p>${rest.postalCode} ${rest.city}</p>
-                  <button class="popup-btn view-daily-menu" data-id="${rest._id}">View today's menu</button>
-                  <button class="popup-btn view-weekly-menu" data-id="${rest._id}">View this week's menu</button>
-                  <button class="popup-btn add-favourite" data-id="${rest._id}">Add as favourite</button>
-                </div>
-              `,
-                icon: 'restaurant',
-              },
-            };
-            return feature;
-          }),
-        },
+      const geojsonData: FeatureCollection = {
+        type: 'FeatureCollection',
+        features: restaurants.map((restaurant: Restaurant) => {
+          const feature: GeoJSON.Feature<GeoJSON.Point> = {
+            type: 'Feature',
+            geometry: restaurant.location,
+            properties: {
+              restaurant,
+            },
+          };
+          return feature;
+        }),
       };
-      console.log(geojson);
-      map.addSource('restaurants', geojson as any);
-      map.addLayer({
-        id: 'restaurants',
-        type: 'symbol',
-        source: 'restaurants',
-        layout: {
-          'icon-image': ['get', 'icon'],
-          'icon-allow-overlap': true,
-        },
-      });
-      map.on(
-        'click',
-        'restaurants',
-        (e: mapboxgl.MapMouseEvent & mapboxgl.EventData) => {
-          // Copy coordinates array.
-          const coordinates = e.features[0].geometry.coordinates.slice();
-          const description = e.features[0].properties.description;
+      console.log(geojsonData);
 
-          // Ensure that if the map is zoomed out such that multiple
-          // copies of the feature are visible, the popup appears
-          // over the copy being pointed to.
-          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-          }
+      // add markers to map
+      for (const feature of geojsonData.features) {
+        // create a HTML element for each feature
+        const el = document.createElement('div');
+        el.className = 'marker';
 
-          const popup = new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(description)
-            .addTo(map);
-
-          const viewMenu = popup.getElement().querySelector('.view-daily-menu');
-          viewMenu?.addEventListener('click', async (evt) => {
-            try {
-              const menu = await doFetch(
-                env.apiUrl +
-                  '/restaurants/daily/' +
-                  (evt.currentTarget as HTMLElement).dataset.id +
-                  '/fi',
-              );
-              console.log(menu);
-            } catch (error) {
-              console.log((error as Error).message);
-            }
-          });
-
-          const viewWeeklyMenu = popup
-            .getElement()
-            .querySelector('.view-weekly-menu');
-          viewWeeklyMenu?.addEventListener('click', async (evt) => {
-            try {
-              const menu = (await doFetch(
-                (env.apiUrl as string) +
-                  '/restaurants/weekly/' +
-                  (evt.currentTarget as HTMLElement).dataset.id +
-                  '/fi',
-              )) as WeeklyMenu;
-              console.log(menu);
-              const weeklyMenu = document.querySelector(
-                '#menu-week',
-              ) as HTMLDialogElement;
-              weeklyMenu.querySelector('.modal-body')!.innerHTML = '';
-              const menuHTML = createWMenu(menu);
-              weeklyMenu.querySelector('.modal-body')!.appendChild(menuHTML);
-              weeklyMenu?.showModal();
-            } catch (error) {
-              console.log((error as Error).message);
-            }
-          });
-
-          const addFavourite = popup
-            .getElement()
-            .querySelector('.add-favourite');
-          addFavourite?.addEventListener('click', (evt) => {
-            console.log((evt.currentTarget as HTMLElement).dataset.id);
-            try {
-              const favourite = doFetch((env.apiUrl as string) + '/users', {
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: 'Bearer ' + localStorage.getItem('token'),
-                },
-                body: JSON.stringify({
-                  favouriteRestaurant: (evt.currentTarget as HTMLElement)
-                    .dataset.id,
-                }),
-              });
-              console.log(favourite);
-            } catch (error) {}
-          });
-        },
-      );
+        // make a marker for each feature and add to the map
+        new mapboxgl.Marker(el)
+          .setLngLat(feature.geometry.coordinates as mapboxgl.LngLatLike)
+          .setPopup(
+            new mapboxgl.Popup({ offset: 25 }) // add popups
+              .setDOMContent(createPopup(feature.properties.restaurant, env)),
+          )
+          .addTo(map);
+      }
 
       // Change the cursor to a pointer when the mouse is over the places layer.
       map.on('mouseenter', 'restaurants', () => {
@@ -219,7 +129,7 @@ import loadEnvironment from './functions/loadEnvironment';
         map.getCanvas().style.cursor = '';
       });
     } catch (error) {
-      console.log((error as Error).message);
+      console.log(error);
     }
   });
 
