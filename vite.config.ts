@@ -348,35 +348,33 @@ export default defineConfig({
             sizes: '256x256',
           },
           {
-            src: 'android/maskable_icon_x512.png',
+            src: 'android/android-launchericon-512-512.png',
             sizes: '512x512',
-            purpose: 'any maskable',
+            purpose: 'maskable',
           },
           {
-            src: 'android/maskable_icon_x384.png',
-            sizes: '384x384',
-            purpose: 'any maskable',
-          },
-          {
-            src: 'android/maskable_icon_x192.png',
+            src: 'android/android-launchericon-192-192.png',
             sizes: '192x192',
+            purpose: 'maskable',
           },
           {
-            src: 'android/maskable_icon_x128.png',
-            sizes: '128x128',
+            src: 'android/android-launchericon-144-144.png',
+            sizes: '144x144',
+            purpose: 'maskable',
           },
           {
-            src: 'android/maskable_icon_x96.png',
+            src: 'android/android-launchericon-96-96.png',
             sizes: '96x96',
           },
           {
-            src: 'android/maskable_icon_x72.png',
+            src: 'android/android-launchericon-72-72.png',
             sizes: '72x72',
+            purpose: 'maskable',
           },
           {
-            src: 'android/maskable_icon_x48.png',
+            src: 'android/android-launchericon-48-48.png',
             sizes: '48x48',
-            purpose: 'any maskable',
+            purpose: 'maskable',
           },
           {
             src: 'ios/16.png',
