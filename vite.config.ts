@@ -23,7 +23,8 @@ export default defineConfig({
         name: 'Student Restaurants',
         short_name: 'StuRe',
         description: 'Student Restaurants',
-        theme_color: '#242424',
+        theme_color: '#ffffff',
+        background_color: '#242424',
         icons: [
           {
             src: 'windows11/SmallTile.scale-100.png',
@@ -56,6 +57,7 @@ export default defineConfig({
           {
             src: 'windows11/Square150x150Logo.scale-150.png',
             sizes: '225x225',
+            purpose: 'any maskable',
           },
           {
             src: 'windows11/Square150x150Logo.scale-200.png',
