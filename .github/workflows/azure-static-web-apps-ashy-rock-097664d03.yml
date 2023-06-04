@@ -28,7 +28,8 @@ jobs:
         env:
           mapboxToken: ${{ secrets.VITE_MAPBOX_TOKEN }}
           apiUrl: 'https://student-restaurants.azurewebsites.net/api/v1'
-          uploadPath: 'https://student-restaurants.azurewebsites.net/uploads'
+          uploadUrl: 'https://student-restaurants.azurewebsites.net/uploads/'
+          googleApiKey: 'AIzaSyC1qi31-BSCfgy7KWB8Vi8vHsqL7Relwrg'
 
       - name: Build App
         run: npm run build

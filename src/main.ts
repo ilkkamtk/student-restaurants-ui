@@ -5,9 +5,20 @@ import { doFetch } from './functions/fetch';
 import { Restaurant } from './interfaces/Restaurant';
 import loadEnvironment from './functions/loadEnvironment';
 import { FeatureCollection } from './interfaces/FeatureCollection';
-import createPopup from './domFunctions/createPopup';
+import createPopup from './components/createPopup';
 import { registerSW } from 'virtual:pwa-register';
 import { pwaInfo } from 'virtual:pwa-info';
+import { User } from './interfaces/User';
+import updateUserData from './functions/updateUserdata';
+import createAlert from './components/createAlert';
+import activate from './functions/activate';
+import accountInfo from './components/accountInfo';
+import login from './components/login';
+import register from './components/register';
+import logoutButton from './components/logoutButton';
+import updateUser from './components/updateUser';
+import uploadAvatar from './components/uploadAvatar';
+import createRestaurant from './components/createRestaurant';
 
 console.log(pwaInfo);
 
@@ -21,12 +32,23 @@ const updateSW = registerSW({
   },
   onOfflineReady() {
     console.log('onOfflineReady');
-    alert('App is offline ready');
+    createAlert('App is offline ready');
   },
 });
 
+// get query param token
+const urlParams = new URLSearchParams(window.location.search);
+const activateToken = urlParams.get('activate');
+console.log(activateToken);
+if (activateToken) {
+  activate(activateToken);
+}
+
 (async () => {
+  // global variables
+  let loggedIn = false;
   const env = await loadEnvironment();
+
   mapboxgl.accessToken = env.mapboxToken as string;
 
   const map = new mapboxgl.Map({
@@ -44,7 +66,7 @@ const updateSW = registerSW({
     (position) => {
       console.log(position);
       map.setCenter([position.coords.longitude, position.coords.latitude]);
-      map.setZoom(17);
+      map.setZoom(12);
       new mapboxgl.Marker({ color: 'red' })
         .setLngLat([position.coords.longitude, position.coords.latitude])
         .addTo(map);
@@ -164,4 +186,87 @@ const updateSW = registerSW({
   openAccountModal?.addEventListener('click', () => {
     accountModal.showModal();
   });
+
+  // account modal content:
+  const accountModalContent = accountModal.querySelector('.modal-body');
+
+  // account info
+  const { userInfo, username, email, avatar, favouriteButton } = accountInfo();
+  const account = accountModalContent?.appendChild(userInfo);
+
+  // login form
+  const loginForm = accountModalContent?.appendChild(login(env));
+  loginForm?.addEventListener('login-success', async () => {
+    updateAccount();
+  });
+
+  // register form
+  const registerForm = accountModalContent?.appendChild(register(env));
+
+  // logout button
+  const logoutBtn = accountModalContent?.appendChild(logoutButton());
+  logoutBtn?.addEventListener('logout-success', async () => {
+    console.log('häär');
+    updateAccount();
+  });
+
+  // update user data
+  const updateUsr = accountModalContent?.appendChild(updateUser(env));
+  updateUsr?.addEventListener('update-success', async () => {
+    updateAccount();
+  });
+
+  // upload avatar
+  const uploadAva = accountModalContent?.appendChild(uploadAvatar(env));
+  uploadAva?.addEventListener('upload-success', async () => {
+    updateAccount();
+  });
+
+  async function updateAccount() {
+    const userData = await updateUserData(
+      env,
+      username,
+      email,
+      avatar,
+      favouriteButton,
+    );
+
+    console.log(userData);
+    if (userData !== null) {
+      loggedIn = true;
+    } else {
+      loggedIn = false;
+    }
+
+    if (loggedIn) {
+      account?.classList.remove('hidden');
+      loginForm?.classList.add('hidden');
+      registerForm?.classList.add('hidden');
+      logoutBtn?.classList.remove('hidden');
+      updateUsr?.classList.remove('hidden');
+      uploadAva?.classList.remove('hidden');
+    } else {
+      account?.classList.add('hidden');
+      loginForm?.classList.remove('hidden');
+      registerForm?.classList.remove('hidden');
+      logoutBtn?.classList.add('hidden');
+      updateUsr?.classList.add('hidden');
+      uploadAva?.classList.add('hidden');
+    }
+  }
+
+  await updateAccount();
+
+  const userData = JSON.parse(
+    localStorage.getItem('user') as string,
+  ) as User | null;
+
+  // load restaurant info show restaurant modal
+  console.log(userData);
+  if (userData !== null) {
+    createRestaurant(userData.favouriteRestaurant, env);
+    favouriteButton.addEventListener('click', async () => {
+      createRestaurant(userData?.favouriteRestaurant, env);
+    });
+  }
 })();

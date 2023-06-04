@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'Pacifico';
+  src: url('../Pacifico-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -20,6 +28,10 @@
 
 .hidden {
   display: none;
+}
+
+.bold {
+  font-weight: 700;
 }
 
 body {
@@ -46,6 +58,7 @@ header {
   justify-content: space-between;
   overflow: hidden;
   align-items: center;
+  font-family: 'Pacifico';
 }
 
 header img {
@@ -61,7 +74,8 @@ header h1 {
 }
 
 .nav-btn {
-  width: 3rem;
+  font-size: 2rem !important;
+  width: 5rem;
   height: 3rem;
   color: #e6e6e6;
   border: none;
@@ -197,4 +211,46 @@ footer {
   padding: 1rem;
   border: #e6e6e6 4px solid;
   border-radius: 8px;
+}
+
+dialog img {
+  width: 80%;
+  border-radius: 8px;
+  display: block;
+  margin: auto;
+}
+
+.form-control {
+  width: 90%;
+  margin: 0.5rem auto;
+  padding: 0.5rem;
+  border: #e6e6e6 2px solid;
+  border-radius: 8px;
+  outline: none;
+}
+
+.form-control label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.form-control input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.5rem;
+  border: #e6e6e6 2px solid;
+  border-radius: 8px;
+  outline: none;
+}
+
+dialog button {
+  width: 100%;
+  padding: 0.5rem;
+  border: #e6e6e6 2px solid;
+  border-radius: 8px;
+  outline: none;
+  background-color: #242424;
+  color: #e6e6e6;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }

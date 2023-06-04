@@ -1,6 +1,12 @@
 import { DailyMenu } from '../interfaces/Restaurant';
 
-export default function createDailyMenu(date: string, menu: DailyMenu) {
+export default (menu: DailyMenu): HTMLDivElement => {
+  const date = new Date().toLocaleDateString('fi-FI', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
   const menuDiv = document.createElement('div');
   menuDiv.classList.add('day-menu');
   const day = document.createElement('h3');
@@ -21,4 +27,4 @@ export default function createDailyMenu(date: string, menu: DailyMenu) {
   menuDiv.appendChild(day);
   menuDiv.appendChild(menuList);
   return menuDiv;
-}
+};

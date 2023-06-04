@@ -1,6 +1,6 @@
 import { WeeklyMenu } from '../interfaces/Restaurant';
 
-export default function createWMenu(menu: WeeklyMenu) {
+export default (menu: WeeklyMenu): HTMLDivElement => {
   const menuDiv = document.createElement('div');
   menuDiv.classList.add('day-menu');
   menu.days.forEach((menuItem) => {
@@ -34,4 +34,4 @@ export default function createWMenu(menu: WeeklyMenu) {
     menuDiv.appendChild(menuList);
   });
   return menuDiv;
-}
+};

@@ -9,7 +9,7 @@ const loadEnvironment = async (): Promise<Environment> => {
     return await doFetch(url);
   } catch (error) {
     console.log((error as Error).message);
-    return { apiUrl: '', mapboxToken: '', uploadUrl: '' };
+    return { apiUrl: '', mapboxToken: '', uploadUrl: '', googleApiKey: '' };
   }
 };
 

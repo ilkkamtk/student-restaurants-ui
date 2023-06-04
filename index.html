@@ -31,6 +31,17 @@
       <p>© ILE 2023</p>
     </footer>
   </div>
+  <!-- restaurant info -->
+  <dialog id="restaurant-info">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Your Favourite Restaurant</h2>
+        <button class="material-icons close-btn">close</button>
+      </div>
+      <div class="modal-body">
+      </div>
+    </div>
+  </dialog>
   <!-- modal to show todays menu -->
   <dialog id="menu-today">
     <div class="modal">
@@ -61,83 +72,19 @@
         <button class="material-icons close-btn">close</button>
       </div>
       <div class="modal-body">
-        <!-- user info -->
-        <fieldset>
-          <legend>User Info</legend>
-          <h3>Username</h3>
-          <img id="avatar" src="https://via.placeholder.com/150" alt="avatar" />
-          <p>Favourite restaurant: </p>
-        </fieldset>
-        <!-- logout button -->
-        <fieldset>
-          <legend>Logout</legend>
-          <button id="logout-btn">Logout</button>
-        </fieldset>
-        <!-- login form -->
-        <form id="login-form">
-          <fieldset id="login-fieldset">
-            <legend>Login</legend>
-            <div class="form-control">
-              <label for="username">Username</label>
-              <input type="text" name="username" placeholder="Enter username" />
-            </div>
-            <div class="form-control">
-              <label for="password">Password</label>
-              <input type="password" name="password" placeholder="Enter password" />
-            </div>
-            <button type="submit" class="btn">Login</button>
-          </fieldset>
-        </form>
-        <!-- register form -->
-        <form id="register-form">
-          <fieldset>
-            <legend>Register</legend>
-            <div class="form-control">
-              <label for="username">Username</label>
-              <input type="text" name="username" placeholder="Enter username" />
-            </div>
-            <div class="form-control">
-              <label for="password">Password</label>
-              <input type="password" name="password" placeholder="Enter password" />
-            </div>
-            <div class="form-control">
-              <label for="password2">Confirm Password</label>
-              <input type="password" name="password2" placeholder="Enter password again" />
-            </div>
-            <button type="submit" class="btn">Register</button>
-          </fieldset>
-        </form>
-        <!-- update user -->
-        <form id="update-form">
-          <fieldset>
-            <legend>Update User</legend>
-            <div class="form-control">
-              <label for="username">Username</label>
-              <input type="text" name="username" placeholder="Enter username" />
-            </div>
-            <div class="form-control">
-              <label for="password">Password</label>
-              <input type="password" name="password" placeholder="Enter password" />
-            </div>
-            <div class="form-control">
-              <label for="password2">Confirm Password</label>
-              <input type="password" name="password2" placeholder="Enter password again" />
-            </div>
-            <button type="submit" class="btn">Update</button>
-          </fieldset>
-          <!-- upload avatar -->
-          <form id="upload-form">
-            <fieldset>
-              <legend>Upload Avatar Image</legend>
-
-              <div class="form-control">
-                <label for="avatar">Avatar</label>
-                <input type="file" name="" accept="image/*" />
-              </div>
-              <button type="submit" class="btn">Upload</button>
-            </fieldset>
-          </form>
+        <!-- account info, forms etc. -->
       </div>
+  </dialog>
+  <dialog id="alert">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Alert</h2>
+        <button class="material-icons close-btn">close</button>
+      </div>
+      <div class="modal-body">
+        <p id="alert-message"></p>
+      </div>
+    </div>
   </dialog>
 </body>
 
