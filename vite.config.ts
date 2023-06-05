@@ -4,7 +4,7 @@ export default defineConfig({
   plugins: [
     VitePWA({
       devOptions: {
-        enabled: false,
+        enabled: true,
         type: 'module',
       },
       registerType: 'autoUpdate',

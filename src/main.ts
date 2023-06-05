@@ -23,6 +23,7 @@ import createRestaurant from './components/createRestaurant';
 console.log(pwaInfo);
 
 const updateSW = registerSW({
+  immediate: true,
   onNeedRefresh() {
     console.log('onNeedRefresh');
     const update = confirm('New version available. Update?');
