@@ -1,7 +1,7 @@
 import { DailyMenu } from '../interfaces/Restaurant';
 
 export default (menu: DailyMenu): HTMLDivElement => {
-  const date = new Date().toLocaleDateString('fi-FI', {
+  const date = new Date().toLocaleDateString('en-GB', {
     weekday: 'long',
     day: 'numeric',
     month: 'long',

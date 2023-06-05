@@ -62,6 +62,8 @@ if (activateToken) {
     antialias: true,
   });
 
+  map.addControl(new mapboxgl.NavigationControl());
+
   // follow user and set map center to user location, add red marker to user location
   navigator.geolocation.getCurrentPosition(
     (position) => {
