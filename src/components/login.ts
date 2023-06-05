@@ -20,6 +20,7 @@ export default (env: Environment): HTMLFormElement => {
   usernameInput.setAttribute('type', 'text');
   usernameInput.setAttribute('name', 'username');
   usernameInput.setAttribute('placeholder', 'Enter username');
+  usernameInput.setAttribute('autocapitalize', 'none');
   usernameDiv.appendChild(usernameInput);
   loginFieldset.appendChild(usernameDiv);
   const passwordDiv = document.createElement('div');
