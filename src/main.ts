@@ -8,7 +8,6 @@ import { FeatureCollection } from './interfaces/FeatureCollection';
 import createPopup from './components/createPopup';
 import { registerSW } from 'virtual:pwa-register';
 import { pwaInfo } from 'virtual:pwa-info';
-import { User } from './interfaces/User';
 import updateUserData from './functions/updateUserdata';
 import createAlert from './components/createAlert';
 import activate from './functions/activate';
