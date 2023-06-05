@@ -3,12 +3,12 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   plugins: [
     VitePWA({
+      outDir: 'dist',
       devOptions: {
         enabled: true,
         type: 'module',
       },
-      registerType: 'autoUpdate',
-      injectRegister: 'auto',
+      registerType: 'prompt',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,ttf,woff,woff2}'],
         sourcemap: true,
@@ -23,8 +23,9 @@ export default defineConfig({
         name: 'Student Restaurants',
         short_name: 'StuRe',
         description: 'Student Restaurants',
-        theme_color: '#ffffff',
-        background_color: '#242424',
+        theme_color: '#242424',
+        background_color: '#ffffff',
+        start_url: '/',
         icons: [
           {
             src: 'windows11/SmallTile.scale-100.png',

@@ -45,7 +45,7 @@ export default (env: Environment): HTMLFormElement => {
 
       if (userData.data) {
         createAlert('Avatar uploaded successfully');
-        uploadForm.dispatchEvent(new CustomEvent('avatar-uploaded'));
+        uploadForm.dispatchEvent(new CustomEvent('upload-success'));
       }
     } catch (error) {
       console.log(error);

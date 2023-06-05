@@ -213,7 +213,8 @@ footer {
   border-radius: 8px;
 }
 
-dialog img {
+dialog img,
+.mapboxgl-popup-content img {
   width: 80%;
   border-radius: 8px;
   display: block;

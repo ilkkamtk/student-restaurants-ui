@@ -14,6 +14,17 @@ export default (restaurant: Restaurant, env: Environment): HTMLDivElement => {
   address.textContent = restaurant.address;
   const postalCode = document.createElement('p');
   postalCode.textContent = `${restaurant.postalCode} ${restaurant.city}`;
+  const image = document.createElement('img');
+  image.src =
+    'https://maps.googleapis.com/maps/api/streetview?size=400x400&location=' +
+    restaurant.address +
+    ',' +
+    restaurant.postalCode +
+    ',' +
+    restaurant.city +
+    '&key=' +
+    env.googleApiKey;
+  image.alt = restaurant.name;
   const viewDailyMenu = document.createElement('button');
   viewDailyMenu.classList.add('popup-btn', 'view-daily-menu');
   viewDailyMenu.textContent = "View today's menu";
@@ -27,6 +38,7 @@ export default (restaurant: Restaurant, env: Environment): HTMLDivElement => {
     name,
     address,
     postalCode,
+    image,
     viewDailyMenu,
     viewWeeklyMenu,
     addFavourite,

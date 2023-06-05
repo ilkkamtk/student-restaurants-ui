@@ -75,7 +75,7 @@ export default (env: Environment): HTMLFormElement => {
         );
       }
     } catch (error) {
-      console.log(error);
+      createAlert((error as Error).message);
     }
   });
   return registerForm;
