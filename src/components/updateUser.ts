@@ -19,6 +19,8 @@ export default (env: Environment): HTMLFormElement => {
   usernameInput.setAttribute('type', 'text');
   usernameInput.setAttribute('name', 'username');
   usernameInput.setAttribute('placeholder', 'Enter username');
+  usernameInput.setAttribute('autocapitalize', 'none');
+  usernameInput.setAttribute('minlength', '3');
   usernameDiv.appendChild(usernameInput);
   fieldset.appendChild(usernameDiv);
   const passwordDiv = document.createElement('div');
@@ -31,6 +33,7 @@ export default (env: Environment): HTMLFormElement => {
   passwordInput.setAttribute('type', 'password');
   passwordInput.setAttribute('name', 'password');
   passwordInput.setAttribute('placeholder', 'Enter password');
+  passwordInput.setAttribute('minlength', '5');
   passwordDiv.appendChild(passwordInput);
   fieldset.appendChild(passwordDiv);
   const emailDiv = document.createElement('div');

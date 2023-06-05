@@ -20,6 +20,9 @@ export default (env: Environment): HTMLFormElement => {
   usernameInput.setAttribute('type', 'text');
   usernameInput.setAttribute('name', 'username');
   usernameInput.setAttribute('placeholder', 'Enter username');
+  usernameInput.setAttribute('required', 'true');
+  usernameInput.setAttribute('minlength', '3');
+  usernameInput.setAttribute('autocalpitalize', 'none');
   usernameDiv.appendChild(usernameInput);
   fieldset.appendChild(usernameDiv);
   const emailDiv = document.createElement('div');
@@ -32,6 +35,7 @@ export default (env: Environment): HTMLFormElement => {
   emailInput.setAttribute('type', 'email');
   emailInput.setAttribute('name', 'email');
   emailInput.setAttribute('placeholder', 'Enter email');
+  emailInput.setAttribute('required', 'true');
   emailDiv.appendChild(emailInput);
   fieldset.appendChild(emailDiv);
   const passwordDiv = document.createElement('div');
@@ -44,6 +48,8 @@ export default (env: Environment): HTMLFormElement => {
   passwordInput.setAttribute('type', 'password');
   passwordInput.setAttribute('name', 'password');
   passwordInput.setAttribute('placeholder', 'Enter password');
+  passwordInput.setAttribute('required', 'true');
+  passwordInput.setAttribute('minlength', '5');
   passwordDiv.appendChild(passwordInput);
   fieldset.appendChild(passwordDiv);
   const registerButton = document.createElement('button');
