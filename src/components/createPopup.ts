@@ -68,10 +68,11 @@ export default (restaurant: Restaurant, env: Environment): HTMLDivElement => {
           favouriteRestaurant: restaurant._id,
         }),
       });
-      alert(userData.message);
       localStorage.setItem('user', JSON.stringify(userData.data));
       popupDiv.dispatchEvent(new Event('favourite-added'));
-    } catch (error) {}
+    } catch (error) {
+      createAlert((error as Error).message);
+    }
   });
 
   return popupDiv;

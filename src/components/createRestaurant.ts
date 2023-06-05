@@ -43,5 +43,5 @@ export default async (id: string | undefined, env: Environment) => {
   });
   restaurantCard.appendChild(dailyMenuButton);
   restaurantModalContent?.appendChild(restaurantCard);
-  restaurantModal.showModal();
+  return restaurantModal;
 };

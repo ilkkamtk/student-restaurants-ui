@@ -60,7 +60,6 @@ export default (env: Environment): HTMLFormElement => {
       if (userData.token) {
         localStorage.setItem('token', userData.token);
         localStorage.setItem('user', JSON.stringify(userData.data));
-        createAlert('Login successful');
         loginForm.dispatchEvent(new CustomEvent('login-success'));
       }
     } catch (error) {

@@ -150,13 +150,16 @@ if (activateToken) {
         // create a HTML element for each feature
         const el = document.createElement('div');
         el.className = 'marker';
-
+        const popupElement = createPopup(feature.properties.restaurant, env);
+        popupElement.addEventListener('favourite-added', () => {
+          updateAccount();
+        });
         // make a marker for each feature and add to the map
         new mapboxgl.Marker(el)
           .setLngLat(feature.geometry.coordinates as mapboxgl.LngLatLike)
           .setPopup(
             new mapboxgl.Popup({ offset: 25 }) // add popups
-              .setDOMContent(createPopup(feature.properties.restaurant, env)),
+              .setDOMContent(popupElement),
           )
           .addTo(map);
       }
@@ -226,50 +229,55 @@ if (activateToken) {
   });
 
   async function updateAccount() {
-    const userData = await updateUserData(
-      env,
-      username,
-      email,
-      avatar,
-      favouriteButton,
-    );
+    try {
+      const userData = await updateUserData(
+        env,
+        username,
+        email,
+        avatar,
+        favouriteButton,
+      );
 
-    console.log(userData);
-    if (userData !== null) {
-      loggedIn = true;
-    } else {
-      loggedIn = false;
-    }
+      console.log(userData);
+      if (userData !== null) {
+        loggedIn = true;
+      } else {
+        loggedIn = false;
+      }
 
-    if (loggedIn) {
-      account?.classList.remove('hidden');
-      loginForm?.classList.add('hidden');
-      registerForm?.classList.add('hidden');
-      logoutBtn?.classList.remove('hidden');
-      updateUsr?.classList.remove('hidden');
-      uploadAva?.classList.remove('hidden');
-    } else {
-      account?.classList.add('hidden');
-      loginForm?.classList.remove('hidden');
-      registerForm?.classList.remove('hidden');
-      logoutBtn?.classList.add('hidden');
-      updateUsr?.classList.add('hidden');
-      uploadAva?.classList.add('hidden');
+      if (loggedIn && userData !== null) {
+        account?.classList.remove('hidden');
+        loginForm?.classList.add('hidden');
+        registerForm?.classList.add('hidden');
+        logoutBtn?.classList.remove('hidden');
+        updateUsr?.classList.remove('hidden');
+        uploadAva?.classList.remove('hidden');
+
+        if (userData.favouriteRestaurant) {
+          const restaurantModal = await createRestaurant(
+            userData?.favouriteRestaurant,
+            env,
+          );
+          restaurantModal.showModal();
+          // load restaurant info show restaurant modal
+          favouriteButton.addEventListener('click', async () => {
+            restaurantModal.showModal();
+          });
+        } else {
+          favouriteButton.classList.add('hidden');
+        }
+      } else {
+        account?.classList.add('hidden');
+        loginForm?.classList.remove('hidden');
+        registerForm?.classList.remove('hidden');
+        logoutBtn?.classList.add('hidden');
+        updateUsr?.classList.add('hidden');
+        uploadAva?.classList.add('hidden');
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
   await updateAccount();
-
-  const userData = JSON.parse(
-    localStorage.getItem('user') as string,
-  ) as User | null;
-
-  // load restaurant info show restaurant modal
-  console.log(userData);
-  if (userData !== null) {
-    createRestaurant(userData.favouriteRestaurant, env);
-    favouriteButton.addEventListener('click', async () => {
-      createRestaurant(userData?.favouriteRestaurant, env);
-    });
-  }
 })();
