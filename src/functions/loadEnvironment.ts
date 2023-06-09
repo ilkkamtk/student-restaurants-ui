@@ -1,3 +1,4 @@
+// variable subtitution for azure pipeline
 import Environment from '../interfaces/Environment';
 import { doFetch } from './fetch';
 
