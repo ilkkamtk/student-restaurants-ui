@@ -1,9 +1,9 @@
 import serialize from 'form-serialize';
 import { doFetch } from '../functions/fetch';
 import { UserResponse } from '../interfaces/User';
-import Environment from '../interfaces/Environment';
+import { apiURL } from '../utils/variables';
 
-export default (env: Environment): HTMLFormElement => {
+export default (): HTMLFormElement => {
   const updateForm = document.createElement('form');
   const fieldset = document.createElement('fieldset');
   const legend = document.createElement('legend');
@@ -67,7 +67,7 @@ export default (env: Environment): HTMLFormElement => {
         body: JSON.stringify(updateData),
       };
       const userData = (await doFetch(
-        env.apiUrl + '/users',
+        apiURL + '/users',
         options,
       )) as UserResponse;
       localStorage.setItem('user', JSON.stringify(userData.data));

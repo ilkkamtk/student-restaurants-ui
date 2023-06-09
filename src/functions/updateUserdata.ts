@@ -1,10 +1,9 @@
-import Environment from '../interfaces/Environment';
 import { Restaurant } from '../interfaces/Restaurant';
 import { User } from '../interfaces/User';
+import { apiURL, uploadUrl } from '../utils/variables';
 import { doFetch } from './fetch';
 
 const updateUserData = async (
-  env: Environment,
   username: HTMLHeadingElement,
   email: HTMLParagraphElement,
   avatar: HTMLImageElement,
@@ -15,7 +14,7 @@ const updateUserData = async (
     return null;
   }
 
-  const userData = (await doFetch(env.apiUrl + '/users/token', {
+  const userData = (await doFetch(apiURL + '/users/token', {
     headers: {
       Authorization: 'Bearer ' + token,
     },
@@ -28,12 +27,12 @@ const updateUserData = async (
   email.innerHTML = userData.email;
 
   avatar.src = userData.avatar
-    ? env.uploadUrl + userData.avatar
+    ? uploadUrl + userData.avatar
     : 'https://via.placeholder.com/150';
 
   if (userData.favouriteRestaurant) {
     const favouriteData = (await doFetch(
-      env.apiUrl + '/restaurants/' + userData.favouriteRestaurant,
+      apiURL + '/restaurants/' + userData.favouriteRestaurant,
     )) as Restaurant;
     favouriteButton.innerHTML = favouriteData.name;
   }

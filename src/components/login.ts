@@ -2,9 +2,9 @@ import serialize from 'form-serialize';
 import { doFetch } from '../functions/fetch';
 import { UserResponse } from '../interfaces/User';
 import createAlert from './createAlert';
-import Environment from '../interfaces/Environment';
+import { apiURL } from '../utils/variables';
 
-export default (env: Environment): HTMLFormElement => {
+export default (): HTMLFormElement => {
   const loginForm = document.createElement('form');
   const loginFieldset = document.createElement('fieldset');
   const loginLegend = document.createElement('legend');
@@ -53,7 +53,7 @@ export default (env: Environment): HTMLFormElement => {
         body: JSON.stringify(loginData),
       };
       const userData = (await doFetch(
-        env.apiUrl + '/auth/login',
+        apiURL + '/auth/login',
         options,
       )) as UserResponse;
       console.log(userData);

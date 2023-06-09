@@ -1,14 +1,14 @@
 import { doFetch } from '../functions/fetch';
 import { getThisWeeksMenu, getTodaysMenu } from '../functions/getMenus';
-import Environment from '../interfaces/Environment';
 import { Restaurant } from '../interfaces/Restaurant';
+import { apiURL, googleApiKey } from '../utils/variables';
 
-export default async (id: string | undefined, env: Environment) => {
+export default async (id: string | undefined) => {
   const restaurantModal = document.querySelector(
     '#restaurant-info',
   ) as HTMLDialogElement;
   const restaurantData = (await doFetch(
-    `${env.apiUrl}/restaurants/${id}`,
+    `${apiURL}/restaurants/${id}`,
   )) as Restaurant;
   const restaurantModalContent = restaurantModal.querySelector('.modal-body');
   restaurantModalContent!.innerHTML = '';
@@ -26,20 +26,20 @@ export default async (id: string | undefined, env: Environment) => {
     'https://maps.googleapis.com/maps/api/streetview?size=400x400&location=' +
     restaurantData.address +
     '&key=' +
-    env.googleApiKey;
+    googleApiKey;
   restaurantImage.alt = 'street view of ' + restaurantData.name;
   restaurantCard.appendChild(restaurantImage);
   restaurantCard.appendChild(document.createElement('hr'));
   const weeklyMenuButton = document.createElement('button');
   weeklyMenuButton.innerHTML = `This Week's Menu`;
   weeklyMenuButton.addEventListener('click', () => {
-    getThisWeeksMenu(restaurantData._id, env);
+    getThisWeeksMenu(restaurantData._id);
   });
   restaurantCard.appendChild(weeklyMenuButton);
   const dailyMenuButton = document.createElement('button');
   dailyMenuButton.innerHTML = `Today's Menu`;
   dailyMenuButton.addEventListener('click', () => {
-    getTodaysMenu(restaurantData._id, env);
+    getTodaysMenu(restaurantData._id);
   });
   restaurantCard.appendChild(dailyMenuButton);
   restaurantModalContent?.appendChild(restaurantCard);

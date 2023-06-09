@@ -1,13 +1,13 @@
 import createDailyMenu from '../components/createDailyMenu';
 import createWeeklyMenu from '../components/createWeeklyMenu';
-import Environment from '../interfaces/Environment';
 import { DailyMenu, WeeklyMenu } from '../interfaces/Restaurant';
+import { apiURL } from '../utils/variables';
 import { doFetch } from './fetch';
 
-const getTodaysMenu = async (id: string | undefined, env: Environment) => {
+const getTodaysMenu = async (id: string | undefined) => {
   try {
     const menu = (await doFetch(
-      env.apiUrl + '/restaurants/daily/' + id + '/en',
+      apiURL + '/restaurants/daily/' + id + '/en',
     )) as DailyMenu;
     console.log(menu);
     const dailyMenu = document.querySelector(
@@ -28,10 +28,10 @@ const getTodaysMenu = async (id: string | undefined, env: Environment) => {
   }
 };
 
-const getThisWeeksMenu = async (id: string | undefined, env: Environment) => {
+const getThisWeeksMenu = async (id: string | undefined) => {
   try {
     const menu = (await doFetch(
-      (env.apiUrl as string) + '/restaurants/weekly/' + id + '/en',
+      apiURL + '/restaurants/weekly/' + id + '/en',
     )) as WeeklyMenu;
     console.log(menu);
     const weeklyMenu = document.querySelector(

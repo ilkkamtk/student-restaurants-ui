@@ -1,10 +1,10 @@
 import { doFetch } from '../functions/fetch';
 import { getThisWeeksMenu, getTodaysMenu } from '../functions/getMenus';
-import Environment from '../interfaces/Environment';
 import { Restaurant } from '../interfaces/Restaurant';
+import { apiURL, googleApiKey } from '../utils/variables';
 import createAlert from './createAlert';
 
-export default (restaurant: Restaurant, env: Environment): HTMLDivElement => {
+export default (restaurant: Restaurant): HTMLDivElement => {
   const popupDiv = document.createElement('div');
   popupDiv.classList.add('flex', 'flex-col');
   const name = document.createElement('h3');
@@ -23,7 +23,7 @@ export default (restaurant: Restaurant, env: Environment): HTMLDivElement => {
     ',' +
     restaurant.city +
     '&key=' +
-    env.googleApiKey;
+    googleApiKey;
   image.alt = restaurant.name;
   const viewDailyMenu = document.createElement('button');
   viewDailyMenu.classList.add('popup-btn', 'view-daily-menu');
@@ -45,11 +45,11 @@ export default (restaurant: Restaurant, env: Environment): HTMLDivElement => {
   );
   // button events
   viewDailyMenu.addEventListener('click', async () => {
-    getTodaysMenu(restaurant._id, env);
+    getTodaysMenu(restaurant._id);
   });
 
   viewWeeklyMenu.addEventListener('click', async () => {
-    getThisWeeksMenu(restaurant._id, env);
+    getThisWeeksMenu(restaurant._id);
   });
 
   addFavourite.addEventListener('click', async () => {
@@ -58,7 +58,7 @@ export default (restaurant: Restaurant, env: Environment): HTMLDivElement => {
       return;
     }
     try {
-      const userData = await doFetch((env.apiUrl as string) + '/users', {
+      const userData = await doFetch(apiURL + '/users', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

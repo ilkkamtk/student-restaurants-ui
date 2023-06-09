@@ -1,9 +1,9 @@
 import { doFetch } from '../functions/fetch';
-import Environment from '../interfaces/Environment';
 import { UserResponse } from '../interfaces/User';
+import { apiURL } from '../utils/variables';
 import createAlert from './createAlert';
 
-export default (env: Environment): HTMLFormElement => {
+export default (): HTMLFormElement => {
   const uploadForm = document.createElement('form');
   const fieldset = document.createElement('fieldset');
   const legend = document.createElement('legend');
@@ -39,7 +39,7 @@ export default (env: Environment): HTMLFormElement => {
         body: formData,
       };
       const userData = (await doFetch(
-        env.apiUrl + '/users/avatar',
+        apiURL + '/users/avatar',
         options,
       )) as UserResponse;
 

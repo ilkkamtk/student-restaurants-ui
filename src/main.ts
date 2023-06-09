@@ -3,7 +3,6 @@ import 'material-icons/iconfont/material-icons.css';
 import mapboxgl from 'mapbox-gl';
 import { doFetch } from './functions/fetch';
 import { Restaurant } from './interfaces/Restaurant';
-import loadEnvironment from './functions/loadEnvironment';
 import { FeatureCollection } from './interfaces/FeatureCollection';
 import createPopup from './components/createPopup';
 import { registerSW } from 'virtual:pwa-register';
@@ -18,6 +17,7 @@ import logoutButton from './components/logoutButton';
 import updateUser from './components/updateUser';
 import uploadAvatar from './components/uploadAvatar';
 import createRestaurant from './components/createRestaurant';
+import { apiURL, mapBoxToken } from './utils/variables';
 
 console.log(pwaInfo);
 
@@ -47,9 +47,8 @@ if (activateToken) {
 (async () => {
   // global variables
   let loggedIn = false;
-  const env = await loadEnvironment();
 
-  mapboxgl.accessToken = env.mapboxToken as string;
+  mapboxgl.accessToken = mapBoxToken;
 
   const map = new mapboxgl.Map({
     container: 'map', // container ID
@@ -126,7 +125,7 @@ if (activateToken) {
       labelLayerId,
     );
     try {
-      const restaurants = await doFetch(env.apiUrl + '/restaurants');
+      const restaurants = await doFetch(apiURL + '/restaurants');
       // console.log(restaurants);
       // get data from restaurants and convert it to GeoJSON feature collection
       const geojsonData: FeatureCollection = {
@@ -149,7 +148,7 @@ if (activateToken) {
         // create a HTML element for each feature
         const el = document.createElement('div');
         el.className = 'marker';
-        const popupElement = createPopup(feature.properties.restaurant, env);
+        const popupElement = createPopup(feature.properties.restaurant);
         popupElement.addEventListener('favourite-added', () => {
           updateAccount();
         });
@@ -200,13 +199,13 @@ if (activateToken) {
   const account = accountModalContent?.appendChild(userInfo);
 
   // login form
-  const loginForm = accountModalContent?.appendChild(login(env));
+  const loginForm = accountModalContent?.appendChild(login());
   loginForm?.addEventListener('login-success', async () => {
     updateAccount();
   });
 
   // register form
-  const registerForm = accountModalContent?.appendChild(register(env));
+  const registerForm = accountModalContent?.appendChild(register());
 
   // logout button
   const logoutBtn = accountModalContent?.appendChild(logoutButton());
@@ -216,13 +215,13 @@ if (activateToken) {
   });
 
   // update user data
-  const updateUsr = accountModalContent?.appendChild(updateUser(env));
+  const updateUsr = accountModalContent?.appendChild(updateUser());
   updateUsr?.addEventListener('update-success', async () => {
     updateAccount();
   });
 
   // upload avatar
-  const uploadAva = accountModalContent?.appendChild(uploadAvatar(env));
+  const uploadAva = accountModalContent?.appendChild(uploadAvatar());
   uploadAva?.addEventListener('upload-success', async () => {
     updateAccount();
   });
@@ -230,7 +229,6 @@ if (activateToken) {
   async function updateAccount() {
     try {
       const userData = await updateUserData(
-        env,
         username,
         email,
         avatar,
@@ -255,7 +253,6 @@ if (activateToken) {
         if (userData.favouriteRestaurant) {
           const restaurantModal = await createRestaurant(
             userData?.favouriteRestaurant,
-            env,
           );
           restaurantModal.showModal();
           // load restaurant info show restaurant modal
