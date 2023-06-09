@@ -1,16 +1,14 @@
 import createAlert from '../components/createAlert';
 import { doFetch } from './fetch';
-import loadEnvironment from './loadEnvironment';
-import Environment from '../interfaces/Environment';
 import MessageResponse from '../interfaces/MessageResponse';
+import { apiURL } from '../utils/variables';
 
 const activate = async (token: string) => {
   // activate user
   console.log('gere');
   try {
-    const env = (await loadEnvironment()) as Environment;
     const userData = (await doFetch(
-      env.apiUrl + '/users/activate/' + token,
+      apiURL + '/users/activate/' + token,
     )) as MessageResponse;
 
     if (userData.message) {
