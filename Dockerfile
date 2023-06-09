@@ -7,6 +7,16 @@ WORKDIR /app
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
 
+# Set environment variables during the build
+ARG VITE_MAPBOX_TOKEN
+ARG VITE_API_URL
+ARG VITE_GOOGLE_API_KEY
+ARG VITE_UPLOAD_URL
+ENV VITE_MAPBOX_TOKEN=$VITE_MAPBOX_TOKEN
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_GOOGLE_API_KEY=$VITE_GOOGLE_API_KEY
+ENV VITE_UPLOAD_URL=$VITE_UPLOAD_URL
+
 # Install dependencies
 RUN npm install
 
