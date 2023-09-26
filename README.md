@@ -2,7 +2,7 @@
 
 Working UI: https://ashy-rock-097664d03.3.azurestaticapps.net/
 
-Test UI for Student Restaurants API located here: https://student-restaurants.azurewebsites.net/
+Backend API located here: https://student-restaurants.azurewebsites.net/
 
 Backend repo: https://github.com/ilkkamtk/sodexo-webscrape
 
